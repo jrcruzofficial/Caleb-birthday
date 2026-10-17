@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! 🎂</title>
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 20px 10px;
+             background-image: url("grunge-halloween-background-with-hanging-spider_1048-2538.avif");
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- BACKGROUND ANIMATIONS --- */
+        /* Umaangatang Balloons */
+        .balloon {
+            position: absolute;
+            bottom: -100px;
+            width: 35px;
+            height: 45px;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: floatUp 7s infinite ease-in;
+            z-index: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(-110vh) rotate(15deg); opacity: 0; }
+        }
+
+        /* Nalalaglag na parang confetti / stars */
+        .falling-item {
+            position: absolute;
+            top: -50px;
+            width: 10px;
+            height: 10px;
+            background-color: #ffd700;
+            opacity: 0.8;
+            animation: fallDown 5s infinite linear;
+            z-index: 0;
+        }
+        @keyframes fallDown {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            z-index: 10; /* para nasa ibabaw ng animations */
+        }
+
+        /* Card Wrapper */
+        .box-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 { color: #ff4757; margin-top: 0; }
+
+        /* Step 1: Slideshow & Audio */
+        .slideshow {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            margin: 15px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .slide {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .slide.active { display: block; }
+
+        /* Step 2: Mystery Cards */
+        .mystery-grid {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .mystery-card {
+            background: #ff4757;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            padding: 30px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            flex: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .mystery-card:hover { transform: translateY(-5px); }
+
+        /* Step 3: Friend Messages */
+        .message-item {
+            background: #f8f9fa;
+            border-left: 4px solid #ff4757;
+            padding: 12px 15px;
+            margin: 10px 0;
+            text-align: left;
+            border-radius: 8px;
+        }
+        .sender-name {
+            font-weight: bold;
+            color: #2f3542;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        /* Buttons */
+        .btn {
+            background-color: #2ed573;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: background 0.2s;
+            width: 100%;
+        }
+        .btn:hover { background-color: #26af5f; }
+    </style>
+</head>
+<body>
+
+    <!-- --- BACKGROUND ANIMATED ELEMENTS --- -->
+    <!-- Umaangatang Balloons -->
+    <div class="balloon" style="left: 10%; background: #ff4757; animation-delay: 0s;"></div>
+    <div class="balloon" style="left: 30%; background: #ffa502; animation-delay: 2s;"></div>
+    <div class="balloon" style="left: 55%; background: #2ed573; animation-delay: 4s;"></div>
+    <div class="balloon" style="left: 80%; background: #1e90ff; animation-delay: 1s;"></div>
+
+    <!-- Nalalaglag na Confetti/Stars -->
+    <div class="falling-item" style="left: 15%; animation-delay: 0s; background: #ff6b81;"></div>
+    <div class="falling-item" style="left: 45%; animation-delay: 2s; background: #ffd700; border-radius: 50%;"></div>
+    <div class="falling-item" style="left: 75%; animation-delay: 1s; background: #70a1ff;"></div>
+    <div class="falling-item" style="left: 90%; animation-delay: 3s; background: #ff4757;"></div>
+
+    <div class="container">
+
+        <!-- ================= STEP 1: SONG & PICTURES ================= -->
+        <div class="box-card" id="step1">
+            <h1>🎉 Happy Birthday, Caleb Joe C Bamba 🎂</h1>
+            <p>Listen to your birthday song directed by jr otits mong pogi</p>
+
+            <!-- Birthday Song Audio -->
+            <audio controls autoplay style="width: 100%; margin: 10px 0;">
+                <source src="New Recording.mp3" type="audio/mpeg">
+                Your browser does not support audio playback.
+            </audio>
+
+            <!-- Photo Slideshow -->
+            <div class="slideshow">
+                <img class="slide active" src="caleb spiderman.jpg" alt="Birthday Person 1">
+                <img class="slide" src="calebFam.jpg" alt="Birthday Person 2">
+                <img class="slide" src="caleb.jpg" alt="Birthday Person 3">
+            </div>
+
+            <button class="btn" onclick="goToStep2()">Pick Your Mystery Gift 🎁 ➔</button>
+        </div>
+
+        <!-- ================= STEP 2: MYSTERY PICK (CAKE OR ₱200) ================= -->
+        <div class="box-card" id="step2" style="display: none;">
+            <h2>🎲 Pick a Mystery Birthday Gift Box!</h2>
+            <p>??????????????</p>
+
+            <div class="mystery-grid">
+                <div class="mystery-card" onclick="pickBox('Box A')">🎁 Box A</div>
+                <div class="mystery-card" onclick="pickBox('Box B')">🎁 Box B</div>
+            </div>
+        </div>
+
+        <!-- Prize Result Card -->
+        <div class="box-card" id="step2Result" style="display: none;">
+            <h2 id="prizeTitle">🎉 You Won!</h2>
+            <p id="prizeDesc" style="font-size: 1.1rem; color: #2f3542;"></p>
+            <button class="btn" onclick="goToStep3()">Next: Read Messages 💌 ➔</button>
+        </div>
+
+        <!-- ================= STEP 3: FRIENDS' MESSAGES ================= -->
+        <div class="box-card" id="step3" style="display: none;">
+            <h2>💌 Messages From Family Cruz</h2>
+            <p>Here our special birthday wishes for you: baby caleb:</p>
+
+            <div class="message-item">
+                <span class="sender-name"> <img src="jr.jpg" height="35px" width="50px" >      Tito JR</span> 
+                "Happy Birthday Caleb sana maging mabuti kang bata wag na gumaya saming mga tito mo and keep smart like your Mommm."
+            </div>
+
+            <div class="message-item">
+                <span class="sender-name"><img src="fathermother.jpg" height="35px" width="50px" >      Loda Nida / Lolo tata</span>
+                "Happy Birthday apo Lumali ka tulad ng nanay mo matalino at mabait - lola & lolo"
+            </div>
+
+            <div class="message-item">
+                <span class="sender-name"><img src="rhoda.jpg" height="35px" width="50px" >      Tita Rhoda Family </span>
+                "Happy Birthday, my niece! My wish for you is simple good health, a happy heart, and a life full of love. Tita will always be here for you. Love you😘 Caleb joe"
+            </div>
+            <div class="message-item">
+                <span class="sender-name"><img src="angelliit.jpg" height="35px" width="50px" > <img src="lengdu.jpg" height="35px" width="50px" >      Tito Emai / Tita Angel liit</span>
+                "Happy Birthday Caleb sana maging pogi ka tulad ko - emai and sana lumaki kana agad - angel"
+            </div>
+            <div class="message-item">
+                <span class="sender-name"><img src="angellaki.jpg" height="35px" width="50px" > <img src="ronnie.jpg" height="35px" width="50px" >      Tito Ronnie / Tita Angel laki</span>
+                "Happy Birthday Caleb I hope you grow up well, respectful of others and close to God, of course, a loving child to your parents."
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 1. Photo Slideshow Animation
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 3000);
+
+        // 2. Navigation to Step 2
+        function goToStep2() {
+            document.getElementById('step1').style.display = 'none';
+            document.getElementById('step2').style.display = 'block';
+            confetti({ particleCount: 50, spread: 50 });
+        }
+
+        // 3. Random Pick Logic (Cake vs ₱200)
+        function pickBox(selectedBox) {
+            document.getElementById('step2').style.display = 'none';
+            document.getElementById('step2Result').style.display = 'block';
+
+            // Randomly assign Cake or ₱200
+            const prizes = [
+                { title: "🎂 You Get a Birthday Cake!", desc: "You picked " + selectedBox + " and will be receive a delicious birthday cake treat gift!" },
+                { title: "🧸 You Get a Birthday Gift Toy!", desc: "You picked " + selectedBox + " and will be recieve a toy from otit jr!" }
+            ];
+            
+            const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
+            
+            document.getElementById('prizeTitle').innerText = randomPrize.title;
+            document.getElementById('prizeDesc').innerText = randomPrize.desc;
+
+            // Confetti Explosion
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.5 } });
+        }
+
+        // 4. Navigation to Step 3 (Messages)
+        function goToStep3() {
+            document.getElementById('step2Result').style.display = 'none';
+            document.getElementById('step3').style.display = 'block';
+            confetti({ particleCount: 80, spread: 60 });
+        }
+    </script>
+</body>
+</html></html>
